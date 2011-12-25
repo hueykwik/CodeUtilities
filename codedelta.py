@@ -48,6 +48,7 @@ for author in authorList:
         authorToCode[author]['insertions'] += insertions
         authorToCode[author]['deletions'] += deletions
         
-    total = authorToCode[author]['insertions'] + authorToCode[author]['deletions']
-    print '{} {} {} {}'.format(author, total, insertions, deletions)
-    
+    insertions = authorToCode[author]['insertions']
+    deletions = authorToCode[author]['deletions']
+    total = insertions + deletions
+    print author + " " + str(total) + " " + str(insertions) + " " + str(deletions)
