@@ -49,5 +49,4 @@ for author in authorList:
 			authorToCode[author] = codeDelta
 	total = authorToCode[author]['insertions'] + authorToCode[author]['deletions']
 	print '{} {} {} {}'.format(author, total, insertions, deletions)
-	#print author + " " + total + " " + insertions + " " + deletions	
 	
