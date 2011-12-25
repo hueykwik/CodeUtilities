@@ -24,26 +24,30 @@ for author in authorList:
 	if len(author) == 0:
 		continue
 	command = 'git log --author=\"' +author+ '\" --pretty=tformat: --numstat'
-	#print command
+
 	# for each author, get their stats
 	stats = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE)
 	statLines = stats.communicate()[0].split('\n')
-	print author
+	
 	for line in statLines:
 		if len (line) == 0:
 			continue
 		elements = line.split()
-		#print line
-		#print "insertions: " + elements[0]
-		#print "deletions: " + elements[1]
 		
+		try: 
+			insertions = int(elements[0])
+			deletions = int(elements[1])
+		except ValueError:
+			# if it's not an integer, just punt
+			continue
+
 		if author in authorToCode: 
-			print "adding"
-			authorToCode[author]['insertions'] += int(elements[0])
-			authorToCode[author]['deletions'] += int(elements[1])
+			authorToCode[author]['insertions'] += insertions
+			authorToCode[author]['deletions'] += deletions
 		else:
-			print "creating new"
-			codeDelta = {'insertions': int(elements[0]), 'deletions': int(elements[1])}
+			codeDelta = {'insertions': insertions, 'deletions': deletions}
 			authorToCode[author] = codeDelta
-print authorToCode
+	total = authorToCode[author]['insertions'] + authorToCode[author]['deletions']
+	print '{} {} {} {}'.format(author, total, insertions, deletions)
+	#print author + " " + total + " " + insertions + " " + deletions	
 	
